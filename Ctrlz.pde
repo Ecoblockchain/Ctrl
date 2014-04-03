@@ -1,7 +1,4 @@
 import ddf.minim.*;
-import java.util.Arrays;
-import java.io.FileOutputStream;
-import java.awt.Color;
 
 String fileName = "jingle.mp3";
 Minim minim;
@@ -38,40 +35,15 @@ void analyzeUsingAudioSample() {
 
 void draw() {
   background(0);
-
-  if (!(new File(dataPath(fileName+".eps")).isFile())) {
-    // for eps file
-    FileOutputStream finalImage;
-    EpsGraphics2D g;
-
-    try {
-      finalImage = new FileOutputStream(dataPath(fileName+".eps"));
-      g = new EpsGraphics2D(fileName, finalImage, 0, 0, width, height);
-
-      g.setBackground(Color.BLACK);
-      g.clearRect(0, 0, width, height);
-      g.setColor(Color.WHITE);
-
-      for (int i=1; i<ys.length; i++) {
-        PVector ovalDimensions = new PVector(height/8, ys[i-1]/maxY*height); 
-        g.fillOval((int)(i-ovalDimensions.x/2), (int)(height/2-ovalDimensions.y/2), (int)ovalDimensions.x, (int)ovalDimensions.y);
-      }
-
-      g.flush();
-      g.close();
-      finalImage.close();
-    }
-    catch (Exception e) {
-      println("Exception: "+e);
-      exit();
-    }
-  }
-
   pushMatrix();
   translate(0, height/2);
   for (int i=1; i<ys.length; i++) {
     ellipse(i, 0, height/8, ys[i-1]/maxY*height);
   }
   popMatrix();
+
+  if (!(new File(dataPath(fileName+".png")).isFile())) {
+    saveFrame(dataPath(fileName+".png"));
+  }
 }
 
