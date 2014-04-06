@@ -13,11 +13,10 @@ void setup() {
   minim = new Minim(this);
   ys = new float[width];
 
-  String[] files = (new File(dataPath(""))).list();
-  for (int i=0; i<files.length; i++) {
-    if (files[i].endsWith(".mp3")) {
-      analyzeUsingAudioSample(files[i]);
-      drawAudio(files[i]);
+  for(String fn: (new File(dataPath(""))).list()){
+      if (fn.endsWith(".mp3")) {
+      analyzeUsingAudioSample(fn);
+      drawAudio(fn);
     }
   }
 }
