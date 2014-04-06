@@ -1,6 +1,5 @@
 import ddf.minim.*;
 
-String fileName = "jingle.mp3";
 Minim minim;
 float[] ys;
 float maxY = 0;
@@ -14,11 +13,17 @@ void setup() {
   minim = new Minim(this);
   ys = new float[width];
 
-  analyzeUsingAudioSample();
+  String[] files = (new File(dataPath(""))).list();
+  for (int i=0; i<files.length; i++) {
+    if (files[i].endsWith(".mp3")) {
+      analyzeUsingAudioSample(files[i]);
+      drawAudio(files[i]);
+    }
+  }
 }
 
-void analyzeUsingAudioSample() {
-  AudioSample jingle = minim.loadSample(fileName, 2048);
+void analyzeUsingAudioSample(String fileName) {
+  AudioSample jingle = minim.loadSample(dataPath(fileName), 2048);
   float[] leftChannel = jingle.getChannel(AudioSample.LEFT);
   jingle.close();
 
@@ -33,17 +38,18 @@ void analyzeUsingAudioSample() {
   }
 }
 
-void draw() {
+void drawAudio(String fileName) {
   background(0);
   pushMatrix();
   translate(0, height/2);
   for (int i=1; i<ys.length; i++) {
-    ellipse(i, 0, height/8, ys[i-1]/maxY*height);
+    ellipse(i, 0, height/32, ys[i-1]/maxY*height);
   }
   popMatrix();
 
-  if (!(new File(dataPath(fileName+".png")).isFile())) {
-    saveFrame(dataPath(fileName+".png"));
-  }
+  saveFrame(dataPath(fileName+".png"));
+}
+
+void draw() {
 }
 
