@@ -5,10 +5,8 @@ float[] ys;
 float minY;
 
 void setup() {
-  size(1024, 256);
+  size(1280, 512);
   smooth();
-  fill(255);
-  stroke(255);
 
   minim = new Minim(this);
   ys = new float[width];
@@ -39,11 +37,28 @@ void analyzeUsingAudioSample(String fileName) {
 }
 
 void drawAudio(String fileName) {
+  pushMatrix();
+  translate(0,-100);
+
   background(0);
+  fill(255);
+  stroke(255);
+  strokeWeight(10);
+
   for (int i=1; i<ys.length; i++) {
-    ellipse(i, 0, height/32, ys[i]/minY*2*height);
+    ellipse(i, 0, height/8, ys[i]/minY*2*height);
   }
+
+  fill(0);
+  stroke(0);
+  strokeWeight(0);
+
+  for (int i=1; i<ys.length; i++) {
+    ellipse(i, 0, height/8, ys[i]/minY*2*height);
+  }
+
   saveFrame(dataPath(fileName+".png"));
+  popMatrix();
 }
 
 void draw() {
